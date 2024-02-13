@@ -1,3 +1,4 @@
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2F.gitignore="9EA7F4A6"
 ~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F01_run_bwa_alignment.sh="AE9EC90E"
 ~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F02_run_duplicate_marking_merging.sh="AFB7BBD7"
 ~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F03_run_freebayes_variant_detection.sh="1D591122"
