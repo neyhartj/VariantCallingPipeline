@@ -2,7 +2,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.Rapp.history
+.DS_Store
 */variant_calling/alignment/
 */variant_calling/variants/
 */variant_calling/merged_alignment/
 *slurm*
+.Rproj.user/*

@@ -74,15 +74,25 @@ for SAMPLE in $SAMPLENAMES; do
 
   # Find the FASTQ files in the input directory that match the sample name
   SAMPLEFASTQS=$(find $FASTQDIR -name "*$SAMPLE*")
-
-  ## ALIGNMENT TO STEVENS
-  # Create the output SAM file name
-  OUTPUT=$ALIGNDIR/${SAMPLE}_alignment.sam
-  OUTPUTBAM=$ALIGNDIR/${SAMPLE}_alignment.bam
   
-  # Run the alignment in a pipeline
-  bwa mem -t $NTHREADS -R $RG $REFPREFIX $SAMPLEFASTQS | \
-  samtools fixmate -u -m - - | \
-  samtools sort -O bam -@ $NTHREADS -o $OUTPUTBAM -
+  # Calculate the number of fastqs
+  NFASTQS=$(echo $SAMPLEFASTQS | wc -w)
+  # If the length of the SAMPLEFASTQS is 0, skip
+  if [ $NFASTQS = 0 ]; then
+    continue
+    
+  else
+
+    ## ALIGNMENT TO STEVENS
+    # Create the output SAM file name
+    OUTPUT=$ALIGNDIR/${SAMPLE}_alignment.sam
+    OUTPUTBAM=$ALIGNDIR/${SAMPLE}_alignment.bam
+    
+    # Run the alignment in a pipeline
+    bwa mem -t $NTHREADS -R $RG $REFPREFIX $SAMPLEFASTQS | \
+    samtools fixmate -u -m - - | \
+    samtools sort -O bam -@ $NTHREADS -o $OUTPUTBAM -
+    
+  fi
 
 done
