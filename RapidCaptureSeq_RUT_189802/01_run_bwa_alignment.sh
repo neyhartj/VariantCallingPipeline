@@ -3,7 +3,7 @@
 # SLURM parameters
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --job-name="capture seq variant calling - alignment"
+#SBATCH --job-name="RUT_189802 - capture seq variant calling - alignment"
 #SBATCH -p short
 #SBATCH -t 24:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
@@ -33,16 +33,16 @@ module load samtools
 #####################
 
 # A name for the project
-PROJNAME=PROJECTNAME
+PROJNAME=RUT_189802
 
 # Working directory
-WD=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROJECT
+WD=/project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023/
 
 # Path to directory containing the FASTQ files
-FASTQDIR=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/fastq_files
+FASTQDIR=$WD/fastq_files/
 
 # Path to TXT file containing sample names to run (one per line)
-SAMPLEFILE=$WD/PATH/TO/SAMPLE/FILE
+SAMPLEFILE=$WD/RUT_189802_sample_file.txt
 
 # Prefix of the indexed reference genome
 REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
