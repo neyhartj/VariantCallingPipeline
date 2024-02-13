@@ -65,7 +65,7 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 cd $WD
 
 # Use the sample file to create a vector of sample names
-SAMPLENAMES=$(cut -d \t -f 1 $SAMPLEFILE)
+SAMPLENAMES=$(cut -f 1 $SAMPLEFILE)
 
 # Iterate over the sample names
 for SAMPLE in $SAMPLENAMES; do
@@ -83,6 +83,6 @@ for SAMPLE in $SAMPLENAMES; do
   # Run the alignment in a pipeline
   bwa mem -t $NTHREADS -R $RG $REFPREFIX $SAMPLEFASTQS | \
   samtools fixmate -u -m - - | \
-  samtools sort -b -@ $NTHREADS -o $OUTPUTBAM -
+  samtools sort -O bam -@ $NTHREADS -o $OUTPUTBAM -
 
 done

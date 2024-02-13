@@ -1,1 +1,5 @@
 C:/Users/jeffrey.neyhart/OneDrive - USDA/Documents/CranberryLab/Genotyping/VariantCallingPipeline/.gitignore="660612AA"
+C:/Users/jeffrey.neyhart/OneDrive - USDA/Documents/CranberryLab/Genotyping/VariantCallingPipeline/CaptureSeqTEMPLATE/01_run_bwa_alignment.sh="62A2061A"
+C:/Users/jeffrey.neyhart/OneDrive - USDA/Documents/CranberryLab/Genotyping/VariantCallingPipeline/CaptureSeqTEMPLATE/02_run_duplicate_marking_merging.sh="DC3EBDBB"
+C:/Users/jeffrey.neyhart/OneDrive - USDA/Documents/CranberryLab/Genotyping/VariantCallingPipeline/CaptureSeqTEMPLATE/03_run_freebayes_variant_detection.sh="B771058A"
+C:/Users/jeffrey.neyhart/OneDrive - USDA/Documents/CranberryLab/Genotyping/VariantCallingPipeline/RapidCaptureSeq_RUT_189802/01_run_bwa_alignment.sh="18D027E1"

@@ -83,6 +83,6 @@ for SAMPLE in $SAMPLENAMES; do
   # Run the alignment in a pipeline
   bwa mem -t $NTHREADS -R $RG $REFPREFIX $SAMPLEFASTQS | \
   samtools fixmate -u -m - - | \
-  samtools sort -b -@ $NTHREADS -o $OUTPUTBAM -
+  samtools sort -O bam -@ $NTHREADS -o $OUTPUTBAM -
 
 done
