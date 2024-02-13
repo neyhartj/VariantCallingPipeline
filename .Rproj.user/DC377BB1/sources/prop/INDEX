@@ -1,0 +1,7 @@
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F01_run_bwa_alignment.sh="AE9EC90E"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F02_run_duplicate_marking_merging.sh="AFB7BBD7"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F03_run_freebayes_variant_detection.sh="1D591122"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeq%2F04_run_variant_filtration.sh="065DB8AF"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeqTEMPLATE%2F01_run_bwa_alignment.sh="333DC1C5"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeqTEMPLATE%2F02_run_duplicate_marking_merging.sh="2DF595BE"
+~%2FCranberryLab%2FGenotyping%2FVariantCallingPipeline%2FCaptureSeqTEMPLATE%2F03_run_freebayes_variant_detection.sh="D70FB67E"

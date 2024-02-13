@@ -1,0 +1,26 @@
+{
+    "id": "D0DC575A",
+    "path": "~/CranberryLab/Genotyping/VariantCallingPipeline/CaptureSeqTEMPLATE/03_run_freebayes_variant_detection.sh",
+    "project_path": "CaptureSeqTEMPLATE/03_run_freebayes_variant_detection.sh",
+    "type": "sh",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1707840730375.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "43,47",
+        "scrollLine": "25"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1707840479,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1707840479,
+    "read_only": false,
+    "read_only_alternatives": []
+}
