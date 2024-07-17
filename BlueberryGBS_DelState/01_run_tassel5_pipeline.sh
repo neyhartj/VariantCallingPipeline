@@ -48,6 +48,8 @@ FASTQDIR=$INPUT/fastq_files
 DBNAME=$WD/database/blueberry_gbs_discovery.db
 # Name of keyfile
 KEY=$INPUT/blueberry_gbs_delstate_all_keys.txt
+# Name of the restriction enzyme used for library prep
+ENZ=ApeKI
 
 # Name of tag fasta
 TAGFASTA=$WD/tags/gbs_tags_for_alignment.fa.gz
@@ -81,7 +83,7 @@ run_pipeline.pl -Xms1G -Xmx48G -fork1 -GBSSeqToTagDBPlugin \
 -db $DBNAME \
 -i $INPUT \
 -k $KEY \
--e EcoT22I \
+-e $ENZ \
 -kmerLength 64 \
 -minKmerL 20 \
 -mnQS 20 \
@@ -155,7 +157,7 @@ run_pipeline.pl -Xms1G -Xmx48G -fork1 -SNPQualityProfilerPlugin \
 # Execute the plugin
 run_pipeline.pl -Xms1G -Xmx48G -fork1 -ProductionSNPCallerPluginV2 \
 -db $DBNAME \
--e EcoT22I \
+-e $ENZ \
 -i $FASTQDIR \
 -k $KEY \
 -kmerLength 64 \
