@@ -8,7 +8,7 @@
 #SBATCH --ntasks-per-node=16   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=48G   # maximum memory per node
 #SBATCH --partition=short    # standard node(s)
-#SBATCH --job-name="blueberry_tassel5_discovery_production"
+#SBATCH --job-name="tassel5_discovery_production"
 #SBATCH --mail-user=jeffrey.neyhart@usda.gov   # email address
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
@@ -16,7 +16,7 @@
 
 
 ## 
-## TASSEL5 pipeline for Blueberry GBS
+## TASSEL5 pipeline for cranberry GBS
 ## 
 ## Whole discovery and production pipeline
 ## 
@@ -38,38 +38,39 @@ module load bwa
 ## Set variables
 
 # Working directory
-WD=/project/gifvl_vaccinium/blueberryGenotyping/blueberryEAA
+WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 
 # Name of input directory
 INPUT=$WD/input
 # Name of input directory with FASTQ
 FASTQDIR=$INPUT/fastq_files
 # Name of database
-DBNAME=$WD/database/blueberry_gbs_discovery.db
+DBNAME=$WD/database/cranberry_gbs_discovery_stevensv1_ref.db
 # Name of keyfile
-KEY=$INPUT/blueberry_gbs_delstate_all_keys.txt
-# Name of the restriction enzyme used for library prep
-ENZ=ApeKI
+KEY=$INPUT/cranberry_gbs_unique_keys.txt
+# KEY=$INPUT/cranberry_gbs_unique_keys_resolved_duplicates.txt
 
 # Name of tag fasta
-TAGFASTA=$WD/tags/gbs_tags_for_alignment.fa.gz
+TAGFASTA=$WD/tags/cranberry_gbs_tags_for_alignment.fa.gz
 # Name of unzipped tag fasta
-TAGFASTAUZ=$WD/tags/gbs_tags_for_alignment.fa
+TAGFASTAUZ=$WD/tags/cranberry_gbs_tags_for_alignment.fa
 
 # Name of output sam file
-SAMOUT=$WD/alignment/gbs_tags_aligned_DraperV1.sam
+SAMOUT=$WD/alignment/gbs_tags_aligned_stevensv1_ref.sam
 # Basename of reference index
-REFIND=/project/gifvl_vaccinium/bluberryGenotyping/genome_assemblies/V_corymbosum_genome_Draper_v1.0-scaffolds.fasta
+REFIND=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
 
 # FASTA reference genome
-REF=/project/gifvl_vaccinium/bluberryGenotyping/genome_assemblies/V_corymbosum_genome_Draper_v1.0-scaffolds.fasta
+REF=$REFIND
 
 # Output stat file
-STATSOUTFILE=$WD/stats/snpStats.txt
+STATSOUTFILE=$WD/stats/cranberryGBS_snp_stats_stevensv1_ref.txt
 
 # VCF Output file
-OUTFILE=$WD/snps/blueberryGBS_production_snps.vcf
+OUTFILE=$WD/snps/cranberryGBS_production_snps_stevesv1_ref.vcf
 
+# Number of threads available
+NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
 
 
@@ -83,8 +84,8 @@ run_pipeline.pl -Xms1G -Xmx48G -fork1 -GBSSeqToTagDBPlugin \
 -db $DBNAME \
 -i $INPUT \
 -k $KEY \
--e $ENZ \
--kmerLength 50 \
+-e EcoT22I \
+-kmerLength 64 \
 -minKmerL 20 \
 -mnQS 20 \
 -mxKmerNum 100000000 \
@@ -99,11 +100,12 @@ run_pipeline.pl -Xms1G -Xmx48G -fork1 -TagExportToFastqPlugin \
 -endPlugin -runfork1
 
 # Unzip the fasta file
-gunzip -f $TAGFASTA
+# gunzip -f $TAGFASTA
 
 
 # Run the alignment
-bowtie2 -p 8 --sensitive -x $REFIND -U $TAGFASTAUZ -S $SAMOUT
+bwa mem -t $NTHREADS $REFIND $TAGFASTA > $SAMOUT
+# bowtie2 -p 8 --sensitive -x $REFIND -U $TAGFASTAUZ -S $SAMOUT
 
 # # Alternative
 # bowtie2 -p 8 --sensitive -x $REFIND1 -U $TAGFASTAUZ -S $SAMOUT1
@@ -157,7 +159,7 @@ run_pipeline.pl -Xms1G -Xmx48G -fork1 -SNPQualityProfilerPlugin \
 # Execute the plugin
 run_pipeline.pl -Xms1G -Xmx48G -fork1 -ProductionSNPCallerPluginV2 \
 -db $DBNAME \
--e $ENZ \
+-e EcoT22I \
 -i $FASTQDIR \
 -k $KEY \
 -kmerLength 64 \

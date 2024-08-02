@@ -1,0 +1,45 @@
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 3076924 sequences (320000096 bp)...
+[M::process] read 901510 sequences (93757040 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 1253706, 572, 2)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (169, 205, 242)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (23, 388)
+[M::mem_pestat] mean and std.dev: (205.15, 50.68)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 461)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (9, 112, 142)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 408)
+[M::mem_pestat] mean and std.dev: (104.89, 96.47)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 541)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 3076924 reads in 584.008 CPU sec, 20.421 real sec
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 369735, 167, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (169, 205, 242)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (23, 388)
+[M::mem_pestat] mean and std.dev: (205.25, 50.64)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 461)
+[M::mem_pestat] analyzing insert size distribution for orientation RF...
+[M::mem_pestat] (25, 50, 75) percentile: (16, 112, 191)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (1, 541)
+[M::mem_pestat] mean and std.dev: (112.92, 100.54)
+[M::mem_pestat] low and high boundaries for proper pairs: (1, 716)
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_pestat] skip orientation RF
+[M::mem_process_seqs] Processed 901510 reads in 170.202 CPU sec, 6.041 real sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa mem -t 32 -R @RG\tID:RUT_189802_P001_WA01\tSM:RUT_189802_P001_WA01 /project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta /project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023//fastq_files/HC_RAPiD-Genomics_F368_RUT_189802_P001_WA01_i5-261_i7-97_S4072_L002_R2_001.fastq.gz /project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023//fastq_files/HC_RAPiD-Genomics_F368_RUT_189802_P001_WA01_i5-261_i7-97_S4072_L002_R1_001.fastq.gz
+[main] Real time: 35.495 sec; CPU: 761.006 sec
+[bam_sort_core] merging from 0 files and 32 in-memory blocks...
+[E::hts_open_format] Failed to open file "/project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023//variant_calling/alignment//RUT_189802_P001_WA01_alignment.bam" : No such file or directory
+samtools sort: failed to create "/project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023//variant_calling/alignment//RUT_189802_P001_WA01_alignment.bam": No such file or directory

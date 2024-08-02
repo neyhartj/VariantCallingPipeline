@@ -1,0 +1,27 @@
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--gzvcf /project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023//variants//rapid_merge_all_benlear-ref_call_20240304.vcf.gz
+	--recode-INFO-all
+	--max-alleles 2
+	--min-alleles 2
+	--minDP 10
+	--max-missing 0.2
+	--recode
+	--remove-indels
+	--stdout
+
+Using zlib version: 1.2.11
+Warning: Expected at least 2 parts in INFO entry: ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes for each ALT allele, in the same order as listed">
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases">
+Warning: Expected at least 2 parts in INFO entry: ID=DP4,Number=4,Type=Integer,Description="Number of high-quality ref-forward , ref-reverse, alt-forward and alt-reverse bases">
+After filtering, kept 1567 out of 1567 Individuals
+Outputting VCF file...
+After filtering, kept 13301 out of a possible 814901 Sites
+Run Time = 191.00 seconds
