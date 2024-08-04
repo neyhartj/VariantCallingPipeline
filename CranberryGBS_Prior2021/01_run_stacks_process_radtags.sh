@@ -5,8 +5,8 @@
 
 #SBATCH --time=08:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --nodes=1   # number of nodes
-#SBATCH --ntasks-per-node=16   # 8 processor core(s) per node X 2 threads per core
-#SBATCH --mem=48G   # maximum memory per node
+#SBATCH --ntasks-per-node=8   # 8 processor core(s) per node X 2 threads per core
+#SBATCH --mem=128G   # maximum memory per node
 #SBATCH --partition=short    # standard node(s)
 #SBATCH --job-name="stacks_process_radtags"
 #SBATCH --mail-user=jeffrey.neyhart@usda.gov   # email address
@@ -30,6 +30,7 @@ set -o pipefail
 
 # Load the modules
 module load stacks
+module load parallel
 
 ## Set variables
 
@@ -56,24 +57,39 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 cd $WD
 
 # List the barcode files
-bcodefiles=$(find $BCODEDIR -name *stacks_barcodes.txt)
+bcodefiles=($(find $BCODEDIR -name *stacks_barcodes.txt))
 
-# Iterate over the barcode files
+# Get the flowcell_lane names from the barcode files and make directories
 for file in $bcodefiles; do
-    
-    # Identify the flowcell lane for this file
-    flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
-    
-    # Make a folder in the output dir for this flowcell
-    outputdir=$OUTPUT/$flowcell
-    mkdir $outputdir
-    
-    # Find that fastq file in the input directory
-    fastqfile=$(find $FASTQDIR -name ${flowcell}_fastq.gz)
-    
-    # Run process radtags
-    process_radtags -f $fastqfile -b $file -e 'ecoT22I' -o $outputdir --threads $NTHREADS --clean --quality --rescue
-    
+  # Identify the flowcell lane for this file
+  flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
+  
+  # Make a folder in the output dir for this flowcell
+  outputdir=$OUTPUT/$flowcell
+  mkdir $outputdir
+  
 done
-    
-    
+  
+
+# Write a function that takes the bcodefiles and runs the demultiplenxing function
+run_demultiplex() {
+  file=$1
+  # Identify the flowcell lane for this file
+  flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
+  
+  # Make a folder in the output dir for this flowcell
+  outputdir=$OUTPUT/$flowcell
+
+  # Find that fastq file in the input directory
+  fastqfile=$(find $FASTQDIR -name ${flowcell}_fastq.gz)
+  
+  # Run process radtags
+  process_radtags -f $fastqfile -b $file -e 'ecoT22I' -o $outputdir --threads 1 --clean --quality --rescue
+}
+
+# Export the function
+export -f run_demultiplex
+
+# Run the function in parallel
+parallel -j $NTHREADS run_demultiplex ::: ${bcodefiles[@]}
+
