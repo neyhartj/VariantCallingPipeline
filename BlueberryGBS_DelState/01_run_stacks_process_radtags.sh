@@ -60,7 +60,7 @@ cd $WD
 bcodefiles=($(find $BCODEDIR -name *stacks_barcodes.txt))
 
 # Get the flowcell_lane names from the barcode files and make directories
-for file in $bcodefiles; do
+for file in ${bcodefiles[@]}; do
   # Identify the flowcell lane for this file
   flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
   
