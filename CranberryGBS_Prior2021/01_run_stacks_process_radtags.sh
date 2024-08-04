@@ -96,5 +96,5 @@ run_demultiplex() {
 export -f run_demultiplex
 
 # Run the function in parallel
-parallel -j $NTHREADS run_demultiplex {} $FASTQDIR $OUTPUT::: ${bcodefiles[@]}
+parallel -j $NTHREADS run_demultiplex {} $FASTQDIR $OUTPUT ::: ${bcodefiles[@]}
 
