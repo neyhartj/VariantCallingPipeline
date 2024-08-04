@@ -65,8 +65,11 @@ for file in $bcodefiles; do
   flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
   
   # Make a folder in the output dir for this flowcell
+  # Only do this if the directory does not already exit
   outputdir=$OUTPUT/$flowcell
-  mkdir $outputdir
+  if [ ! -d $outputdir ]; then
+    mkdir $outputdir
+  fi
   
 done
   
