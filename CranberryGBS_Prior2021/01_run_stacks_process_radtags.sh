@@ -77,14 +77,16 @@ done
 # Write a function that takes the bcodefiles and runs the demultiplenxing function
 run_demultiplex() {
   file=$1
+  fastqdir=$2
+  output=$3
   # Identify the flowcell lane for this file
   flowcell=$(basename $file | sed 's/_stacks_barcodes.txt//g')
   
   # Make a folder in the output dir for this flowcell
-  outputdir=$OUTPUT/$flowcell
+  outputdir=$output/$flowcell
 
   # Find that fastq file in the input directory
-  fastqfile=$(find $FASTQDIR -name ${flowcell}_fastq.gz)
+  fastqfile=$(find $fastqdir -name ${flowcell}_fastq.gz)
   
   # Run process radtags
   process_radtags -f $fastqfile -b $file -e 'ecoT22I' -o $outputdir --threads 1 --clean --quality --rescue
@@ -94,5 +96,5 @@ run_demultiplex() {
 export -f run_demultiplex
 
 # Run the function in parallel
-parallel -j $NTHREADS run_demultiplex ::: ${bcodefiles[@]}
+parallel -j $NTHREADS run_demultiplex {} $FASTQDIR $OUTPUT::: ${bcodefiles[@]}
 
