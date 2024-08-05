@@ -67,23 +67,23 @@ if [ ! -d $FASTQMERGEDIR ]; then
   mkdir $FASTQMERGEDIR
 fi
 
-# Find fastq files
-FASTQFILES=$(find $FASTQDIR -name "*.fq.gz")
-# Get unique sample names
-FASTQUNIQUE=$(for file in $FASTQFILES; do basename $file; done | sort -u)
-
-# Iterate over the unique sample names and merge duplicates
-for sample in $FASTQUNIQUE; do
-  # Search for the sample in FASTQFILES
-  sample_fastqs=($(find $FASTQDIR -name $sample))
-  outname=$FASTQMERGEDIR/$sample
-  # If more than one, merge
-  if [ "${#sample_fastqs[@]}" -gt 1 ]; then
-    cat ${sample_fastqs[@]} > $outname
-  else
-    cp ${sample_fastqs[@]} $outname
-  fi
-done
+# # Find fastq files
+# FASTQFILES=$(find $FASTQDIR -name "*.fq.gz")
+# # Get unique sample names
+# FASTQUNIQUE=$(for file in $FASTQFILES; do basename $file; done | sort -u)
+# 
+# # Iterate over the unique sample names and merge duplicates
+# for sample in $FASTQUNIQUE; do
+#   # Search for the sample in FASTQFILES
+#   sample_fastqs=($(find $FASTQDIR -name $sample))
+#   outname=$FASTQMERGEDIR/$sample
+#   # If more than one, merge
+#   if [ "${#sample_fastqs[@]}" -gt 1 ]; then
+#     cat ${sample_fastqs[@]} > $outname
+#   else
+#     cp ${sample_fastqs[@]} $outname
+#   fi
+# done
   
 
 ## Get a new list of the fastq files
