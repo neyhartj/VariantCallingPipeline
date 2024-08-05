@@ -91,7 +91,7 @@ FASTQFILES=$(find $FASTQMERGEDIR -name "*.fq.gz")
 
 # Iterate over those files and align to the Stevens reference genome
 for fastqfile in $FASTQFILES; do
-  SAMPLE=$(sed $fastqfile 's/.fq.gz//g')
+  SAMPLE=$(echo $fastqfile | sed 's/.fq.gz//g')
   # Create a RG tag
   RG="@RG\tID:$SAMPLE\tSM:$SAMPLE"
   ## ALIGNMENT TO STEVENS
