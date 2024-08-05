@@ -100,7 +100,7 @@ for fastqfile in $FASTQFILES; do
   OUTPUTBAM=$ALIGNDIR/${SAMPLE}_stevensv1_alignment.bam
   
   # Run the alignment in a pipeline
-  bwa mem -t $NTHREADS -R $RG $REFPREFIX $SAMPLEFASTQS | \
+  bwa mem -t $NTHREADS -R $RG $REFPREFIX $fastqfile | \
   samtools fixmate -u -m - - | \
   samtools sort -O bam -@ $NTHREADS -o $OUTPUTBAM -
     
