@@ -5,7 +5,7 @@
 
 #SBATCH --job-name="capture seq variant calling - alignment merging"
 #SBATCH -p short
-#SBATCH -t 12:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 23:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 32   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=156G   # maximum memory per node
@@ -69,7 +69,7 @@ for BAMFILE in $BAMFILES; do
 	MARKDUPOUT=${BAMFILE%".bam"}_duplicate_metrics.txt
 
 	# Mark and remove duplicates
-	java -Xmx100G -jar picard.jar MarkDuplicates \
+	java -Xmx100G -jar /software/el9/apps/picard/3.0.0/picard.jar MarkDuplicates \
 		--REMOVE_DUPLICATES true \
 		-I $BAMFILE \
 		-O $OUTPUT \
