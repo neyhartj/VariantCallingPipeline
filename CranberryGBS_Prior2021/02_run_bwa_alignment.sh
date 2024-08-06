@@ -16,7 +16,7 @@
 ##
 ## GBS variant calling pipeline
 ##
-## Step 1. Alignment to reference genomes using the BWA aligner
+## Step 2. Alignment to reference genomes using the BWA aligner
 ##
 
 # Set error handling options

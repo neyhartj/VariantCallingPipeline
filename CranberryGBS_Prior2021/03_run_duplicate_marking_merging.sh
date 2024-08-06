@@ -5,7 +5,7 @@
 
 #SBATCH --job-name="capture seq variant calling - alignment merging"
 #SBATCH -p short
-#SBATCH -t 24:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 12:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 32   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=156G   # maximum memory per node
@@ -14,9 +14,9 @@
 
 
 ##
-## Capture Seq Variant Calling Pipeline
+## GBS variant calling pipeline
 ##
-## Step 2. Mark and remove duplicates in the BAM files and then merge bam files
+## Step 3. Mark and remove duplicates in the BAM files and then merge bam files
 ##
 
 # Set error handling options
@@ -33,19 +33,16 @@ module load picard
 #####################
 
 # A name for the project
-PROJNAME=PROJECTNAME
+PROJNAME="cranberry_prior2021_gbs"
 
 # Working directory
-WD=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROJECT
+WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 
 # Directory containing alignment files
-ALIGNDIR=$WD/variant_calling/alignment/
+ALIGNDIR=$WD/alignment/
 
 # Directory to output merged alignment files
-MERGEDALIGNDIR=$WD/variant_calling/merged_alignment
-
-# Path to BED file containing probe locations
-PROBEBED=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROBE/BEDFILE
+MERGEDALIGNDIR=$WD/merged_alignment
 
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
@@ -72,7 +69,7 @@ for BAMFILE in $BAMFILES; do
 	MARKDUPOUT=${BAMFILE%".bam"}_duplicate_metrics.txt
 
 	# Mark and remove duplicates
-	java -Xmx100G -jar /software/el9/apps/picard/3.0.0/picard.jar MarkDuplicates \
+	java -Xmx100G -jar picard.jar MarkDuplicates \
 		--REMOVE_DUPLICATES true \
 		-I $BAMFILE \
 		-O $OUTPUT \
@@ -89,7 +86,7 @@ NEWBAMFILES=$(find $ALIGNDIR -name "*_alignment_nodup.bam")
 # Subset the bam files for only those positions overlapping with the probe BED file
 samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $NEWBAMFILES | \
 	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
-	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -L $PROBEBED -
+	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
 
 # Index
 samtools index $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam
