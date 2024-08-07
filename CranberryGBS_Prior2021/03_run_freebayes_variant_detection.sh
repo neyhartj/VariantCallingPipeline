@@ -5,7 +5,7 @@
 
 #SBATCH --job-name="GBS variant calling - variant calling"
 #SBATCH -p short
-#SBATCH -t 08:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 03:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 72   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=216G   # maximum memory per node
@@ -16,7 +16,7 @@
 ##
 ## Capture Seq Variant Calling Pipeline
 ##
-## Step 3. Call variants using freebayes
+## Step 3. merge alignment files and call variants using freebayes
 ##
 
 # Set error handling options
@@ -41,7 +41,9 @@ WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 # Prefix of the indexed reference genome
 REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
 
-# Directory to the input merged alignment files
+# Directory to the alignment files
+ALIGNDIR=$WD/alignment
+# Directory to store the merged alignment file
 MERGEDALIGNDIR=$WD/merged_alignment
 
 # Directory to output variants
@@ -61,6 +63,20 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 # Change working directory
 cd $WD
 
+## Merge BAM files
+# List the bam files
+BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
+
+# Merge the bam files
+# Sort on coordinates
+samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $BAMFILES | \
+	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
+	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
+
+# Index
+samtools index $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam
+
+
 # List alignment files
 ALIGNMENTFILES=$(find $MERGEDALIGNDIR -name "*alignments_merged.bam")
 
@@ -76,7 +92,7 @@ OUTPUT=$VARIANTDIR/${PROJNAME}_variants.vcf
 #################
 
 freebayes-parallel <(fasta_generate_regions.py $REFPREFIX 1000000) $SLURM_JOB_CPUS_PER_NODE \
-	-f $REFPREFIX --use-best-n-alleles 2 --min-mapping-quality 30 $ALIGNMENTFILES > $OUTPUT
+	-f $REFPREFIX --use-best-n-alleles 2 --min-mapping-quality 10 $ALIGNMENTFILES > $OUTPUT
 
 # gzip the output
 gzip $OUTPUT

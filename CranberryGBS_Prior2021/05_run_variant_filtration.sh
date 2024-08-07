@@ -48,7 +48,7 @@ PROBEBED=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROBE/BEDFILE
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
 # Parameters for VCFtools filtration
-MAXMISSING=0.2
+MAXMISSING=0.01
 MINDP=10
 
 
@@ -79,7 +79,7 @@ vcftools --gzvcf $VARIANTFILES \
 	--min-alleles 2 \
 	--max-alleles 2 \
 	--max-missing $MAXMISSING \
-	--minDP $MINDP \
+	# --minDP $MINDP \
 	--recode \
 	--recode-INFO-all \
 	--stdout | gzip -c > $OUTPUT
