@@ -62,7 +62,7 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 cd $WD
 
 # List alignment files
-ALIGNMENTFILES=$(find $ALIGNDIR -name "*alignments_merged.bam")
+ALIGNMENTFILES=$(find $MERGEDALIGNDIR -name "*alignments_merged.bam")
 
 ## Run variant calling 
 # Ouput file
