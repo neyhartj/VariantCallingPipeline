@@ -3,9 +3,9 @@
 # SLURM parameters
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --job-name="capture seq variant calling - variant calling"
+#SBATCH --job-name="GBS variant calling - variant calling"
 #SBATCH -p short
-#SBATCH -t 02:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 08:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 72   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=216G   # maximum memory per node
@@ -33,22 +33,19 @@ module load freebayes
 #####################
 
 # A name for the project
-PROJNAME=PROJECTNAME
+PROJNAME="cranberry_prior2021_gbs"
 
 # Working directory
-WD=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROJECT
+WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 
 # Prefix of the indexed reference genome
 REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
 
 # Directory to the input merged alignment files
-MERGEDALIGNDIR=$WD/variant_calling/merged_alignment
+MERGEDALIGNDIR=$WD/merged_alignment
 
 # Directory to output variants
-VARIANTDIR=$WD/variant_calling/variants/
-
-# Path to BED file containing probe locations
-PROBEBED=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROBE/BEDFILE
+VARIANTDIR=$WD/variants/
 
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE

@@ -5,7 +5,7 @@
 
 #SBATCH --job-name="capture seq variant calling - alignment merging"
 #SBATCH -p short
-#SBATCH -t 23:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 12:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 32   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=156G   # maximum memory per node
