@@ -1,0 +1,10 @@
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/var/spool/slurmd/job12931790/slurm_script: line 103: SAMPLEFASTQS: unbound variable
+[bam_mating_core] ERROR: Couldn't read header
+[W::hts_set_opt] Cannot change block size for this format
+samtools sort: failed to read header from "-"

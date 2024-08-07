@@ -3,7 +3,7 @@
 # SLURM parameters
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --job-name="capture seq variant calling - alignment merging"
+#SBATCH --job-name="cranberry GBS variant calling - alignment merging"
 #SBATCH -p short
 #SBATCH -t 23:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
@@ -64,7 +64,7 @@ BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
 # Iterate over the alignment files
 for BAMFILE in $BAMFILES; do
 
-	# Output file from duplicate marking
+# Output file from duplicate marking
 	OUTPUT=${BAMFILE%".bam"}_nodup.bam
 	MARKDUPOUT=${BAMFILE%".bam"}_duplicate_metrics.txt
 
