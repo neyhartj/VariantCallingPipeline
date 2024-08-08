@@ -33,23 +33,20 @@ module load bcftools
 #####################
 
 # A name for the project
-PROJNAME=PROJECTNAME
+PROJNAME="cranberry_prior2021_gbs"
 
 # Working directory
-WD=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROJECT
+WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 
 # Directory to output variants
-VARIANTDIR=$WD/variant_calling/variants/
-
-# Path to BED file containing probe locations
-PROBEBED=/project/gifvl_vaccinium/cranberryGenotyping/PATH/TO/PROBE/BEDFILE
+VARIANTDIR=$WD/variants/
 
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
 # Parameters for VCFtools filtration
-MAXMISSING=0.01
-MINDP=10
+MAXMISSING=0.80
+MINDP=7
 
 
 
@@ -64,7 +61,7 @@ MINDP=10
 cd $WD
 
 # Get the variant files
-VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf
+VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf.gz
 
 # bcftools stats
 OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
@@ -74,12 +71,11 @@ bcftools stats $VARIANTFILES > $OUTPUTSTAT
 OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered.vcf.gz
 
 vcftools --gzvcf $VARIANTFILES \
-	--bed $PROBEBED \
 	--remove-indels \
 	--min-alleles 2 \
 	--max-alleles 2 \
 	--max-missing $MAXMISSING \
-	# --minDP $MINDP \
+	--minDP $MINDP \
 	--recode \
 	--recode-INFO-all \
 	--stdout | gzip -c > $OUTPUT
