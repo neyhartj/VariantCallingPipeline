@@ -5,7 +5,7 @@
 
 #SBATCH --job-name="GBS variant calling - variant calling"
 #SBATCH -p short
-#SBATCH -t 03:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 24:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
 #SBATCH -n 72   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=216G   # maximum memory per node
@@ -95,4 +95,4 @@ freebayes-parallel <(fasta_generate_regions.py $REFPREFIX 1000000) $SLURM_JOB_CP
 	-f $REFPREFIX --use-best-n-alleles 2 --min-mapping-quality 10 $ALIGNMENTFILES > $OUTPUT
 
 # gzip the output
-gzip $OUTPUT
+gzip -f $OUTPUT
