@@ -46,7 +46,7 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
 # Parameters for VCFtools filtration
 MAXMISSING=0.80
-MINDP=7
+MINDP=5
 
 
 
@@ -84,4 +84,28 @@ vcftools --gzvcf $VARIANTFILES \
 # bcftools stats
 OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
 bcftools stats $OUTPUT > $OUTPUTSTAT
+
+
+# More strict filtering for imputation
+# Remove the bi-parental populations
+
+OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_imputation.vcf.gz
+
+vcftools --gzvcf $VARIANTFILES \
+	--remove-indels \
+	--min-alleles 2 \
+	--max-alleles 2 \
+	--max-missing 0.50 \
+	--mac 10 \
+	--minDP 5 \
+	--keep $VARIANTDIR/cranberry_gbs_imputation_individuals.txt \
+	--recode \
+	--recode-INFO-all \
+	--stdout | gzip -c > $OUTPUT
+
+
+# bcftools stats
+OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
+bcftools stats $OUTPUT > $OUTPUTSTAT
+
 
