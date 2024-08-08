@@ -3,7 +3,7 @@
 # SLURM parameters
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --job-name="capture seq variant calling - variant filtration"
+#SBATCH --job-name="cranberry GBS variant calling - variant filtration"
 #SBATCH -p short
 #SBATCH -t 02:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
