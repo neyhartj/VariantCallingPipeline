@@ -44,9 +44,6 @@ VARIANTDIR=$WD/variants/
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
-# Parameters for VCFtools filtration
-MAXMISSING=0.80
-MINDP=5
 
 
 
@@ -63,49 +60,52 @@ cd $WD
 # Get the variant files
 VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf.gz
 
-# bcftools stats
-OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
-bcftools stats $VARIANTFILES > $OUTPUTSTAT
+### Filter for haplotype library construction ##
 
-
-OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered.vcf.gz
+OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_haplotype_library
 
 vcftools --gzvcf $VARIANTFILES \
 	--remove-indels \
 	--min-alleles 2 \
 	--max-alleles 2 \
-	--max-missing $MAXMISSING \
-	--minDP $MINDP \
-	--recode \
-	--recode-INFO-all \
-	--stdout | gzip -c > $OUTPUT
-
-
-# bcftools stats
-OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
-bcftools stats $OUTPUT > $OUTPUTSTAT
-
-
-# More strict filtering for imputation
-# Remove the bi-parental populations
-
-OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_imputation.vcf.gz
-
-vcftools --gzvcf $VARIANTFILES \
-	--remove-indels \
-	--min-alleles 2 \
-	--max-alleles 2 \
-	--max-missing 0.50 \
-	--mac 10 \
+	--max-missing 0.80 \
+	--mac 5 \
 	--minDP 5 \
 	--keep $VARIANTDIR/cranberry_gbs_imputation_individuals.txt \
+	--chr chr1 \
+	--chr chr2 \
+	--chr chr3 \
+	--chr chr4 \
+	--chr chr5 \
+	--chr chr6 \
+	--chr chr7 \
+	--chr chr8 \
+	--chr chr9 \
+	--chr chr10 \
+	--chr chr11 \
+	--chr chr12 \
 	--recode \
 	--recode-INFO-all \
-	--stdout | gzip -c > $OUTPUT
+	--out $OUTPUT
+	
 
+# Create a BED file based on this VCF file
+cat $OUTPUT.recode.vcf | grep -v "^#" | awk 'NR > 1 { print $1"\t"$2"\t"$2 }' - > ${OUTPUT}_snps.bed
 
-# bcftools stats
-OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
-bcftools stats $OUTPUT > $OUTPUTSTAT
+BEDFILE=${OUTPUT}_snps.bed
 
+### Filter for imputation ##
+
+OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_imputation
+
+vcftools --gzvcf $VARIANTFILES \
+	--remove-indels \
+	--min-alleles 2 \
+	--max-alleles 2 \
+	--mac 5 \
+	--minDP 5 \
+	--bed $BEDFILE \
+	--recode \
+	--recode-INFO-all \
+	--out $OUTPUT
 

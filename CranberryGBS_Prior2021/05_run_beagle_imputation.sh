@@ -69,5 +69,5 @@ cd $WD
 java -Xmx32g -jar /software/7/apps/beagle-geno/5.3/beagle.08Feb22.fa4.jar \
 gt=$VCFIN \
 out=$OUTPUT/${PROJNAME}_imputed_snps \
-ne=25 burnin=10 iterations=30 nthreads=$NTHREADS
+ne=30 em=false burnin=10 iterations=30 nthreads=$NTHREADS
 
