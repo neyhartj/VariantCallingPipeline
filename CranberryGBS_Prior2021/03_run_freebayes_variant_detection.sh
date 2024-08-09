@@ -63,18 +63,18 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 # Change working directory
 cd $WD
 
-## Merge BAM files
-# List the bam files
-BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
-
-# Merge the bam files
-# Sort on coordinates
-samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $BAMFILES | \
-	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
-	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
-
-# Index
-samtools index $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam
+# ## Merge BAM files
+# # List the bam files
+# BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
+# 
+# # Merge the bam files
+# # Sort on coordinates
+# samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $BAMFILES | \
+# 	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
+# 	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
+# 
+# # Index
+# samtools index $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam
 
 
 # List alignment files
@@ -92,7 +92,7 @@ OUTPUT=$VARIANTDIR/${PROJNAME}_variants.vcf
 #################
 
 freebayes-parallel <(fasta_generate_regions.py $REFPREFIX 1000000) $SLURM_JOB_CPUS_PER_NODE \
-	-f $REFPREFIX --use-best-n-alleles 2 --min-mapping-quality 10 $ALIGNMENTFILES > $OUTPUT
+	-f $REFPREFIX --use-best-n-alleles 2 --min-mapping-quality 10 --genotype-qualities --ploidy 2 $ALIGNMENTFILES > $OUTPUT
 
 # gzip the output
 gzip -f $OUTPUT
