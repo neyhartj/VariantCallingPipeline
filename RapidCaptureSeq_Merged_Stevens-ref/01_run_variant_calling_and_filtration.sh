@@ -16,7 +16,7 @@
 ##
 ## Capture Seq Variant Calling Pipeline
 ##
-## Step 4. Filter variants from freebayes
+## Step 4. Call variants from mpileup and filter the variants
 ##
 
 # Set error handling options
@@ -41,6 +41,9 @@ WD=/project/gifvl_vaccinium/cranberryGenotyping/RAPiD_Cranberry_15K/Data/2023/
 # Directory to output variants
 VARIANTDIR=$WD/variants/
 
+# Path to BED file containing probe locations
+PROBEBED=""
+
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
@@ -57,10 +60,37 @@ cd $WD
 
 # Get the variant files
 # VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf
-VARIANTFILES=$VARIANTDIR/rapid_merge_all_benlear-ref_20240223.vcf.gz
+VARIANTFILES=$VARIANTDIR/rapid_merge_stevens-ref_20240326.vcf.gz
 
 # Run bcftools call
 OUTPUT=${VARIANTFILES%".vcf.gz"}_call.vcf.gz
 bcftools call $VARIANTFILES -o $OUTPUT -O z -mv --threads $NTHREADS
+
+# Get the variant files
+VARIANTFILES=$OUTPUT
+
+# bcftools stats
+OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
+bcftools stats $VARIANTFILES > $OUTPUTSTAT
+
+
+## Run vcftools filter
+OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered.vcf.gz
+
+vcftools --gzvcf $VARIANTFILES \
+	--remove-indels \
+	--min-alleles 2 \
+	--max-alleles 2 \
+	--max-missing 0.20 \
+  --minQ 40 \
+	--recode \
+	--recode-INFO-all \
+	--stdout | gzip -f -c > $OUTPUT
+
+
+# bcftools stats
+OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
+bcftools stats $OUTPUT > $OUTPUTSTAT
+
 
 
