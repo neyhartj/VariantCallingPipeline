@@ -92,7 +92,7 @@ OUTPUT=$VARIANTDIR/${PROJNAME}_variants.vcf
 #################
 
 freebayes-parallel <(fasta_generate_regions.py $REFPREFIX 1000000) $SLURM_JOB_CPUS_PER_NODE \
-	-f $REFPREFIX --use-best-n-alleles 2 --genotype-qualities --ploidy 2 $ALIGNMENTFILES > $OUTPUT
+	-f $REFPREFIX --use-best-n-alleles 2 --ploidy 2 $ALIGNMENTFILES > $OUTPUT
 
 # gzip the output
 gzip -f $OUTPUT
