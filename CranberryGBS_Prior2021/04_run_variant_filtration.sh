@@ -44,7 +44,10 @@ VARIANTDIR=$WD/variants/
 # Number of threads available
 NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
-
+# Filtering parameters for production SNPs
+MAXMISSING=0.50
+MINDP=5
+MINMAC=1 # Remove monomorphic SNPs
 
 
 ##############################
@@ -60,52 +63,84 @@ cd $WD
 # Get the variant files
 VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf.gz
 
-### Filter for haplotype library construction ##
+# Run stats
+OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
+bcftools stats $VARIANTFILES > $OUTPUTSTAT
 
-OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_haplotype_library
+### Filter for production SNPS ##
+OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered
 
 vcftools --gzvcf $VARIANTFILES \
 	--remove-indels \
 	--min-alleles 2 \
 	--max-alleles 2 \
-	--max-missing 0.80 \
-	--mac 5 \
-	--minDP 5 \
-	--keep $VARIANTDIR/cranberry_gbs_imputation_individuals.txt \
-	--chr chr1 \
-	--chr chr2 \
-	--chr chr3 \
-	--chr chr4 \
-	--chr chr5 \
-	--chr chr6 \
-	--chr chr7 \
-	--chr chr8 \
-	--chr chr9 \
-	--chr chr10 \
-	--chr chr11 \
-	--chr chr12 \
+	--max-missing $MAXMISSING \
+	--mac $MINMAC \
+	--minDP $MINDP \
 	--recode \
 	--recode-INFO-all \
 	--out $OUTPUT
 	
+# Rename
+VARIANTFILES=${OUTPUT}.vcf
+mv ${OUTPUT}.recode.vcf $VARIANTFILES
+# zip
+gzip $VARIANTFILES
 
-# Create a BED file based on this VCF file
-cat $OUTPUT.recode.vcf | grep -v "^#" | awk 'NR > 1 { print $1"\t"$2"\t"$2 }' - > ${OUTPUT}_snps.bed
+VARIANTFILES=${VARIANTFILES}.gz
 
-BEDFILE=${OUTPUT}_snps.bed
+# Run stats on the output
+OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
+bcftools stats $VARIANTFILES > $OUTPUTSTAT
 
-### Filter for imputation ##
 
-OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_imputation
 
-vcftools --gzvcf $VARIANTFILES \
-	--remove-indels \
-	--min-alleles 2 \
-	--max-alleles 2 \
-	--mac 5 \
-	--minDP 5 \
-	--bed $BEDFILE \
-	--recode \
-	--recode-INFO-all \
-	--out $OUTPUT
-
+# ### Filter for haplotype library construction ##
+# 
+# OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_haplotype_library
+# 
+# vcftools --gzvcf $VARIANTFILES \
+# 	--remove-indels \
+# 	--min-alleles 2 \
+# 	--max-alleles 2 \
+# 	--max-missing 0.80 \
+# 	--mac 5 \
+# 	--minDP 5 \
+# 	--keep $VARIANTDIR/cranberry_gbs_imputation_individuals.txt \
+# 	--chr chr1 \
+# 	--chr chr2 \
+# 	--chr chr3 \
+# 	--chr chr4 \
+# 	--chr chr5 \
+# 	--chr chr6 \
+# 	--chr chr7 \
+# 	--chr chr8 \
+# 	--chr chr9 \
+# 	--chr chr10 \
+# 	--chr chr11 \
+# 	--chr chr12 \
+# 	--recode \
+# 	--recode-INFO-all \
+# 	--out $OUTPUT
+# 	
+# 
+# # Create a BED file based on this VCF file
+# cat $OUTPUT.recode.vcf | grep -v "^#" | awk 'NR > 1 { print $1"\t"$2"\t"$2 }' - > ${OUTPUT}_snps.bed
+# 
+# BEDFILE=${OUTPUT}_snps.bed
+# 
+# ### Filter for imputation ##
+# 
+# OUTPUT=${VARIANTFILES%".vcf.gz"}_filtered_imputation
+# 
+# vcftools --gzvcf $VARIANTFILES \
+# 	--remove-indels \
+# 	--min-alleles 2 \
+# 	--max-alleles 2 \
+# 	--mac 5 \
+# 	--minDP 5 \
+# 	--bed $BEDFILE \
+# 	--recode \
+# 	--recode-INFO-all \
+# 	--out $OUTPUT
+# 
