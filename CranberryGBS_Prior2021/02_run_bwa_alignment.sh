@@ -42,7 +42,11 @@ WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 FASTQDIR=$WD/demultiplexed_fastq_files
 
 # Prefix of the indexed reference genome
-REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
+# REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
+REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_BenLear_v2.fasta
+
+# REFNAME="stevensv1"
+REFNAME="benlearv1"
 
 # Directory to output alignment files
 ALIGNDIR=$WD/alignment/
@@ -96,8 +100,8 @@ for fastqfile in $FASTQFILES; do
   RG="@RG\tID:$SAMPLE\tSM:$SAMPLE"
   ## ALIGNMENT TO STEVENS
   # Create the output SAM file name
-  OUTPUT=$ALIGNDIR/${SAMPLE}_stevensv1_alignment.sam
-  OUTPUTBAM=$ALIGNDIR/${SAMPLE}_stevensv1_alignment.bam
+  OUTPUT=$ALIGNDIR/${SAMPLE}_{$REFNAME}_alignment.sam
+  OUTPUTBAM=$ALIGNDIR/${SAMPLE}_{$REFNAME}_alignment.bam
   
   # Run the alignment in a pipeline
   bwa mem -t $NTHREADS -R $RG $REFPREFIX $fastqfile | \

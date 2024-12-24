@@ -46,6 +46,8 @@ SAMPLEFILE=$WD/VAC_155005_sample_file.txt
 
 # Prefix of the indexed reference genome
 REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
+# REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_BenLear_v2.fasta
+
 
 # Directory to output alignment files
 ALIGNDIR=$WD/variant_calling/alignment/
@@ -83,7 +85,6 @@ for SAMPLE in $SAMPLENAMES; do
     
   else
 
-    ## ALIGNMENT TO STEVENS
     # Create the output SAM file name
     OUTPUT=$ALIGNDIR/${SAMPLE}_alignment.sam
     OUTPUTBAM=$ALIGNDIR/${SAMPLE}_alignment.bam

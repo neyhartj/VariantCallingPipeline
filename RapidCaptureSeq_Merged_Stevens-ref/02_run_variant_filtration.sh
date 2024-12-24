@@ -49,7 +49,9 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 
 # Parameters for VCFtools filtration
 MAXMISSING=0.8
-MINDP=10
+MINDP=5
+MINMAC=1 # Remove monomorphic SNPs
+
 
 
 
@@ -80,13 +82,21 @@ vcftools --gzvcf $VARIANTFILES \
 	--min-alleles 2 \
 	--max-alleles 2 \
 	--max-missing $MAXMISSING \
-  --minQ 40 \
+	--mac $MINMAC \
 	--recode \
 	--recode-INFO-all \
-	--stdout | gzip -c > $OUTPUT
+	--out $OUTPUT
 
 
-# bcftools stats
-OUTPUTSTAT=${OUTPUT%".vcf.gz"}_stats.txt
-bcftools stats $OUTPUT > $OUTPUTSTAT
+# Additional filter with bcftools for allele depth and quality
+VARIANTFILE1=${OUTPUT}.recode.vcf
 
+VARIANTFILE2=${OUTPUT}.vcf
+bcftools view -i "AD[GT] >= 5 && F_MISSING <= $MAXMISSING" $VARIANTFILE1 > $VARIANTFILE2
+
+# Zip
+gzip -f $VARIANTFILE2
+
+# Run stats on the output
+OUTPUTSTAT=${VARIANTFILE2%".vcf.gz"}_stats.txt
+bcftools stats $VARIANTFILE2 > $OUTPUTSTAT

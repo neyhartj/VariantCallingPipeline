@@ -1,9 +1,0 @@
-/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
-  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
-/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
-  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
-/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
-  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
-/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
-  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
-[bam_sort_core] merging from 2 files and 32 in-memory blocks...
