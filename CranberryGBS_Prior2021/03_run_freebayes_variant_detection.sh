@@ -41,6 +41,9 @@ WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 # Prefix of the indexed reference genome
 REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
 
+# REFNAME="stevensv1"
+REFNAME="benlearv1"
+
 # Directory to the alignment files
 ALIGNDIR=$WD/alignment
 # Directory to store the merged alignment file
@@ -63,18 +66,18 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 # Change working directory
 cd $WD
 
-# ## Merge BAM files
-# # List the bam files
-# BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
-# 
-# # Merge the bam files
-# # Sort on coordinates
-# samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $BAMFILES | \
-# 	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
-# 	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
-# 
-# # Index
-# samtools index $MERGEDALIGNDIR/${PROJNAME}_alignments_merged.bam
+## Merge BAM files
+# List the bam files
+BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
+
+# Merge the bam files
+# Sort on coordinates
+samtools merge -@ $SLURM_JOB_CPUS_PER_NODE -o - $BAMFILES | \
+	samtools sort -@ $SLURM_JOB_CPUS_PER_NODE -u - | \
+	samtools view -b -o $MERGEDALIGNDIR/${PROJNAME}_${REFNAME}_alignments_merged.bam -@ $SLURM_JOB_CPUS_PER_NODE -
+
+# Index
+samtools index $MERGEDALIGNDIR/${PROJNAME}_${REFNAME}_alignments_merged.bam
 
 
 # List alignment files
@@ -82,7 +85,7 @@ ALIGNMENTFILES=$(find $MERGEDALIGNDIR -name "*alignments_merged.bam")
 
 ## Run variant calling 
 # Ouput file
-OUTPUT=$VARIANTDIR/${PROJNAME}_variants.vcf
+OUTPUT=$VARIANTDIR/${PROJNAME}_${REFNAME}_variants.vcf
 
 # Use parallelization
 
