@@ -100,8 +100,8 @@ for fastqfile in $FASTQFILES; do
   RG="@RG\tID:$SAMPLE\tSM:$SAMPLE"
   ## ALIGNMENT TO STEVENS
   # Create the output SAM file name
-  OUTPUT=$ALIGNDIR/${SAMPLE}_{$REFNAME}_alignment.sam
-  OUTPUTBAM=$ALIGNDIR/${SAMPLE}_{$REFNAME}_alignment.bam
+  OUTPUT=$ALIGNDIR/${SAMPLE}_${REFNAME}_alignment.sam
+  OUTPUTBAM=$ALIGNDIR/${SAMPLE}_${REFNAME}_alignment.bam
   
   # Run the alignment in a pipeline
   bwa mem -t $NTHREADS -R $RG $REFPREFIX $fastqfile | \
