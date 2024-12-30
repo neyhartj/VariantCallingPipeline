@@ -34,6 +34,8 @@ module load bcftools
 
 # A name for the project
 PROJNAME="cranberry_prior2021_gbs"
+# REFNAME="stevensv1"
+REFNAME="benlearv1"
 
 # Working directory
 WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
@@ -62,7 +64,7 @@ MINQ=10 # Minimum QUAL score
 cd $WD
 
 # Get the variant files
-VARIANTFILES=$VARIANTDIR/${PROJNAME}_variants.vcf.gz
+VARIANTFILES=$VARIANTDIR/${PROJNAME}_${REFNAME}_variants.vcf.gz
 
 # Run stats
 OUTPUTSTAT=${VARIANTFILES%".vcf.gz"}_stats.txt
@@ -85,7 +87,7 @@ vcftools --gzvcf $VARIANTFILES \
 VARIANTFILE1=${OUTPUT}.recode.vcf
 
 VARIANTFILE2=${OUTPUT}.vcf
-bcftools view -i "AD[GT] >= 5 && F_MISSING <= $MAXMISSING" $VARIANTFILE1 > $VARIANTFILE2
+bcftools view -i "AD[GT] >= $MINDP && F_MISSING <= $MAXMISSING" $VARIANTFILE1 > $VARIANTFILE2
 
 # Zip
 gzip -f $VARIANTFILE2
