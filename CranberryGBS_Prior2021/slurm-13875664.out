@@ -1,0 +1,15 @@
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+/usr/local/sbin/log-module.py:43: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+  my_logger.warn("ModuleLoggingWARN Unexpected arguments to log-module.py: " + str(leftovers))
+
+
+Running alignment merging
+[bam_sort_core] merging from 992 files and 32 in-memory blocks...
+
+
+Running variant calling
+slurmstepd: error: *** JOB 13875664 ON ceres24-compute-7 CANCELLED AT 2024-12-27T13:34:36 DUE TO TIME LIMIT ***
+slurmstepd: error: Detected 255 oom_kill events in StepId=13875664.batch. Some of the step tasks have been OOM Killed.

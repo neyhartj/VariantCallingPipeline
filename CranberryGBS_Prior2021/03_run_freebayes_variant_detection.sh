@@ -5,9 +5,9 @@
 
 #SBATCH --job-name="GBS variant calling - variant calling"
 #SBATCH -p short
-#SBATCH -t 24:00:00   # walltime limit (HH:MM:SS)
+#SBATCH -t 36:00:00   # walltime limit (HH:MM:SS)
 #SBATCH -N 1   # number of nodes
-#SBATCH -n 72   # 8 processor core(s) per node X 2 threads per core
+#SBATCH -n 64   # 8 processor core(s) per node X 2 threads per core
 #SBATCH --mem=216G   # maximum memory per node
 #SBATCH --mail-user=jeffrey.neyhart@usda.gov   # email address
 #SBATCH --mail-type=BEGIN,END,FAIL
@@ -39,7 +39,9 @@ PROJNAME="cranberry_prior2021_gbs"
 WD=/project/gifvl_vaccinium/cranberryGenotyping/cranberryHistoricalGBS
 
 # Prefix of the indexed reference genome
-REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
+# REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_Stevens_v1.fasta
+REFPREFIX=/project/gifvl_vaccinium/cranberryGenotyping/genome_assemblies/Vaccinium_macrocarpon_BenLear_v2.fasta
+
 
 # REFNAME="stevensv1"
 REFNAME="benlearv1"
@@ -66,6 +68,8 @@ NTHREADS=$SLURM_JOB_CPUS_PER_NODE
 # Change working directory
 cd $WD
 
+echo -e "\n\nRunning alignment merging"
+
 ## Merge BAM files
 # List the bam files
 BAMFILES=$(find $ALIGNDIR -name "*_alignment.bam")
@@ -82,6 +86,10 @@ samtools index $MERGEDALIGNDIR/${PROJNAME}_${REFNAME}_alignments_merged.bam
 
 # List alignment files
 ALIGNMENTFILES=$(find $MERGEDALIGNDIR -name "*alignments_merged.bam")
+
+# Print notice
+echo -e "\n\nRunning variant calling"
+
 
 ## Run variant calling 
 # Ouput file
